@@ -4,9 +4,9 @@ import matplotlib.pyplot as plt
 import scipy.stats as stats
 
 
-plt.style.use('ggplot')
-
-
 def read_data_remove_zeros(csv):
     data = pd.read_csv(csv)
+    data = data[data['Reported'] == 'Y'].copy()
+    data.set_index('School_Name', inplace=True)
+    data.sort_index()
     return(data)
