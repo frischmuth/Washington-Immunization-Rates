@@ -16,7 +16,16 @@ def read_vaccine_data(csv):
     data.sort_index(inplace=True)
     return(data)
 
-
+def read_vaccine_data_tableau(csv):
+    data = pd.read_csv(csv,low_memory=False)
+    data = data[data['Reported'] == 'Y'].copy()
+    data['School_District'] = data['School_District'].str.upper()
+    data['School_Name'] = data['School_Name'].str.upper()
+    data.set_index(['School_District', 'School_Name'], inplace=True)
+    data.rename(columns={data.filter(like='enroll').columns[0]: 'Enrollment'}, inplace=True)
+    data = data[data['Enrollment'] > 0].copy()
+    data.sort_index(inplace=True)
+    return(data)
 
 def filter_percentages(data):
     columns_percent = ['Enrollment', 'ESD', 'City', 'County', 'Percent_complete_for_all_immunizations', 'Percent_conditional', 'Percent_out_of_compliance', 
@@ -62,3 +71,16 @@ def all_kindergarten(data):
 def all_sixth(data):
     six_data = data[data['Gradelevel']=='Sixth Grade']
     return(six_data)
+
+def create_colums(data):
+    groups = data['Group'].unique()
+    print(groups)
+    group_data = data['Group'].copy()
+    data = pd.get_dummies(data, columns = ['Group'], prefix='Percent', prefix_sep=' ')
+    print(data.columns)
+
+    for i in groups:
+        if group_data[0] == i:
+            print('Percent '+i)
+            # data['Percent '+i] = data['Percent Value']
+    return(data)
