@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import scipy.stats as stats
+import math
 
 
 def read_vaccine_data(csv):
@@ -57,3 +58,7 @@ def convert_to_fractions(data):
 def all_kindergarten(data):
     kindergarten_data = data[(data['Gradelevel']=='Full Day Kindergarten') | (data['Gradelevel']=='Half Day Kindergarten')].groupby(['School_District', 'School_Name']).sum()
     return(kindergarten_data)
+
+def all_sixth(data):
+    six_data = data[data['Gradelevel']=='Sixth Grade']
+    return(six_data)
