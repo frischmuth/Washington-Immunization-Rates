@@ -73,7 +73,12 @@ def all_sixth(data):
     return(six_data)
 
 def create_columns(file):
+'''
+Function to import data from tableau exported data for most recent years immunization data
 
+
+
+'''
     data = pd.read_csv(file,low_memory=False)
     data = data[(data['Reported'] == 1) & (data['Enrollment']>0)].copy()
     data['School_District'] = data['School District'].str.upper()
